@@ -1,10 +1,11 @@
 package org.example.movierecommendationsystem2.controller;
 
+import lombok.Getter;
+import org.example.movierecommendationsystem2.model.MovieMatch;
 import org.example.movierecommendationsystem2.services.MovieService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/movies")
@@ -16,9 +17,15 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping
-    public void search(@RequestBody String query){
-        movieService.search(query);
+    @GetMapping("/search")
+    public List<MovieMatch> search(@RequestParam String query) {
+        return movieService.search(query);
+    }
+
+
+    @GetMapping("/{title}/similar")
+    public List<MovieMatch> similarMovies(@PathVariable String title) {
+        return movieService.similarMovies(title);
     }
 
 
